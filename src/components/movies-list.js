@@ -1,6 +1,7 @@
 import React, { useState ,useEffect} from "react";
 import MovieDataService from "../services/movies.js"
 import { Link } from "react-router-dom";
+import { Form,Button,Col,Row,Container} from 'react-bootstrap'
 
 const MoviesList = props=>{
     const [movies,setMovies]=useState([])
@@ -35,9 +36,48 @@ const MoviesList = props=>{
         })
     }
 
+    const onChangeSearchTitle=e=>{
+        const searchTitle=e.target.value
+        setSearchTitle(searchTitle);
+    }
+    const onChangeSearchRating =e=>{
+        const searchRating=e.target.value
+        setSearchRating(searchRating);
+    }
+
+    const findByTitle =()=>{
+        return
+    }
+    const findByRating = () =>{
+        return
+    }
+
     return(
         <div className="App">
-            Movies List
+            <Container>
+                <Form>
+                    <Row>
+                        <Col>
+                            <Form.Group>
+                                <Form.Control type="text" placeholder="Search by title" value={searchTitle} onChange={onChangeSearchTitle}/>
+                            </Form.Group>
+                            <Button variant="primary" type="button" onClick={findByTitle}>Search</Button>
+                        </Col>
+                        <Col>
+                            <Form.Group>
+                                <Form.Control as="select" onChange={onChangeSearchRating}>
+                                    {ratings.map(rating=>{
+                                        return(<option value={rating}>{rating}</option>)
+                                    })}
+                                </Form.Control>
+                            </Form.Group>
+                            <Button variant="primary" type="button" onClick={{findByRating}}>
+                                Search
+                            </Button>
+                        </Col>
+                    </Row>
+                </Form>
+            </Container>
         </div>
     );
 }
