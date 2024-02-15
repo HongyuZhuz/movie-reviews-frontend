@@ -1,7 +1,7 @@
 import React, { useState ,useEffect} from "react";
 import MovieDataService from "../services/movies.js"
 import { Link } from "react-router-dom";
-import { Form,Button,Col,Row,Container} from 'react-bootstrap'
+import { Form,Button,Col,Row,Container,Card} from 'react-bootstrap'
 
 const MoviesList = props=>{
     const [movies,setMovies]=useState([])
@@ -77,6 +77,23 @@ const MoviesList = props=>{
                         </Col>
                     </Row>
                 </Form>
+                <Row>
+                    {movies.map((movie)=>{
+                        return(<Col>
+                                    <Card style={{width:'18rem'}}>
+                                        <Card.Img src={movie.poster+"/100px180"}/>
+                                        <Card.Body>
+                                            <Card.Title>{movie.title}</Card.Title>
+                                            <Card.Text>
+                                                Rating:{movie.rated}
+                                            </Card.Text>
+                                            <Card.Text>{movie.plot}</Card.Text>
+                                            <Link to={"/movies/"+movie._id}>View Reviews</Link>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>)
+                    })}
+                </Row>
             </Container>
         </div>
     );
