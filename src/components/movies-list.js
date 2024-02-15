@@ -45,11 +45,22 @@ const MoviesList = props=>{
         setSearchRating(searchRating);
     }
 
+    const find=(query,by)=>{
+        MovieDataService.find(query,by)
+        .then(response=>{
+            console.log(response.data)
+            setMovies(response.data.movies)
+        })
+        .catch(e=>{
+            console.log(e)
+        })
+    }
+
     const findByTitle =()=>{
-        return
+        find(searchTitle,"title")
     }
     const findByRating = () =>{
-        return
+        find(searchRating,"rated")
     }
 
     return(
@@ -71,7 +82,7 @@ const MoviesList = props=>{
                                     })}
                                 </Form.Control>
                             </Form.Group>
-                            <Button variant="primary" type="button" onClick={{findByRating}}>
+                            <Button variant="primary" type="button" onClick={findByRating}>
                                 Search
                             </Button>
                         </Col>
