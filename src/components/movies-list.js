@@ -45,8 +45,8 @@ const MoviesList = props=>{
         setSearchRating(searchRating);
     }
 
-    const find=(query,by)=>{
-        MovieDataService.find(query,by)
+    const find=(searchTitle,rating)=>{
+        MovieDataService.find(searchTitle,rating)
         .then(response=>{
             console.log(response.data)
             setMovies(response.data.movies)
@@ -56,8 +56,8 @@ const MoviesList = props=>{
         })
     }
 
-    const findByTitle =()=>{
-        find(searchTitle,"title")
+    const findBy =()=>{
+        find(searchTitle,searchRating)
     }
     const findByRating = () =>{
         find(searchRating,"rated")
@@ -72,7 +72,6 @@ const MoviesList = props=>{
                             <Form.Group>
                                 <Form.Control type="text" placeholder="Search by title" value={searchTitle} onChange={onChangeSearchTitle}/>
                             </Form.Group>
-                            <Button variant="primary" type="button" onClick={findByTitle}>Search</Button>
                         </Col>
                         <Col>
                             <Form.Group>
@@ -82,11 +81,11 @@ const MoviesList = props=>{
                                     })}
                                 </Form.Control>
                             </Form.Group>
-                            <Button variant="primary" type="button" onClick={findByRating}>
-                                Search
-                            </Button>
                         </Col>
                     </Row>
+                    <Button variant="primary" type="button" onClick={findBy}>
+                                Search
+                    </Button>
                 </Form>
                 <Row>
                     {movies.map((movie)=>{
