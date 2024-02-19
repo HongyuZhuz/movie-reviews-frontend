@@ -41,6 +41,25 @@ const Movie=props=>{
                         </Card>
                         <br></br>
                         <h2>Reviews</h2>
+                        <br></br>
+                        {movie.reviews.map((review,index)=>{
+                            return(
+                            <div className="media" key={index}>
+                                <div className="media-body">
+                                    <h5>{review.name+" reviewed on "+review.date}</h5>
+                                    <p>{review.review}</p>
+                                    {props.user&&props.user.id===review.user_id&&
+                                    <Row>
+                                        <Col>
+                                            <Link to={{pathname:"/movies/"+id+"/review", state:{currentReview:review}}}>
+                                                Edit
+                                            </Link>
+                                        </Col>
+                                        <Col><Button variant="link">Delete</Button></Col>
+                                    </Row>}
+                                </div>
+                            </div>)
+                        })}
                     </Col>
                 </Row>
             </Container>
