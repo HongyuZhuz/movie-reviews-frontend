@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MovieDataService from '../services/movies'
 import { Link, useParams} from "react-router-dom";
-import {Card,Container,Image,Col,Row,Button,Media} from 'react-bootstrap'
+import {Card,Container,Image,Col,Row,Button} from 'react-bootstrap'
 
 
 
@@ -24,7 +24,13 @@ const Movie=props=>{
     },[id])
     return(
         <div className="App">
-            <Container>
+            <MovieCard movie={movie} id={id} user={props.user}/>
+        </div>
+    )
+}
+const MovieCard =({movie,id,user})=>{
+    return(
+        <Container>
                 <Row>
                     <Col>
                         <Image src={movie.poster+"/100px250"} fluid/>
@@ -36,34 +42,38 @@ const Movie=props=>{
                                 <Card.Text>
                                     {movie.plot}
                                 </Card.Text>
-                                {props.user&&<Link to={"/movies/"+id+"/review"}>Add Review</Link>}
+                                {user&&<Link to={"/movies/"+id+"/review"}>Add Review</Link>}
                             </Card.Body>
                         </Card>
                         <br></br>
                         <h2>Reviews</h2>
                         <br></br>
-                        {movie.reviews.map((review,index)=>{
-                            return(
-                            <div className="media" key={index}>
-                                <div className="media-body">
-                                    <h5>{review.name+" reviewed on "+review.date}</h5>
-                                    <p>{review.review}</p>
-                                    {props.user&&props.user.id===review.user_id&&
-                                    <Row>
-                                        <Col>
-                                            <Link to={{pathname:"/movies/"+id+"/review", state:{currentReview:review}}}>
-                                                Edit
-                                            </Link>
-                                        </Col>
-                                        <Col><Button variant="link">Delete</Button></Col>
-                                    </Row>}
-                                </div>
-                            </div>)
-                        })}
+                        <MovieReviews movie={movie} user={user} id={id}/>
                     </Col>
                 </Row>
             </Container>
-        </div>
+    )
+}
+const MovieReviews = ({movie,user,id})=>{
+    return(
+        movie.reviews.map((review,index)=>{
+            return(
+            <div className="media" key={index}>
+                <div className="media-body">
+                    <h5>{review.name+" reviewed on "+review.date}</h5>
+                    <p>{review.review}</p>
+                    {user&&user.id===review.user_id&&
+                    <Row>
+                        <Col>
+                            <Link to={{pathname:"/movies/"+id+"/review", state:{currentReview:review}}}>
+                                Edit
+                            </Link>
+                        </Col>
+                        <Col><Button variant="link">Delete</Button></Col>
+                    </Row>}
+                </div>
+            </div>)
+        })
     )
 }
 export default Movie;
