@@ -48,7 +48,7 @@ const MoviesList = props=>{
     const find=(searchTitle,rating)=>{
         MovieDataService.find(searchTitle,rating)
         .then(response=>{
-            console.log(response.data)
+           console.log(response.data)
             setMovies(response.data.movies)
         })
         .catch(e=>{
@@ -58,9 +58,6 @@ const MoviesList = props=>{
 
     const findBy =()=>{
         find(searchTitle,searchRating)
-    }
-    const findByRating = () =>{
-        find(searchRating,"rated")
     }
 
     return(
