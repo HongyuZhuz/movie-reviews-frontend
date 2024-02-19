@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MovieDataService from '../services/movies'
 import { Link, useParams} from "react-router-dom";
+import {Card,Container,Image,Col,Row,Button,Media} from 'react-bootstrap'
 
 
 
@@ -23,7 +24,26 @@ const Movie=props=>{
     },[id])
     return(
         <div className="App">
-            Movie
+            <Container>
+                <Row>
+                    <Col>
+                        <Image src={movie.poster+"/100px250"} fluid/>
+                    </Col>
+                    <Col>
+                        <Card>
+                            <Card.Header>{movie.title}</Card.Header>
+                            <Card.Body>
+                                <Card.Text>
+                                    {movie.plot}
+                                </Card.Text>
+                                {props.user&&<Link to={"/movies/"+id+"/review"}>Add Review</Link>}
+                            </Card.Body>
+                        </Card>
+                        <br></br>
+                        <h2>Reviews</h2>
+                    </Col>
+                </Row>
+            </Container>
         </div>
     )
 }
