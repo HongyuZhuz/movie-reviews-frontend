@@ -23,7 +23,11 @@ function App() {
   return (
     <BrowserRouter className='App'>
       <Navbar bg="light" expand="sm">
-        <Navbar.Brand href = "#home">Movie Reviews</Navbar.Brand>
+        <Navbar.Brand>
+          <Link to="/movies" style={{color:'inherit',textDecoration:'inherit'}}>
+          Movie Reviews
+          </Link>
+          </Navbar.Brand>
         <Navbar.Toggle aria-controls = "basic-navbar-nav"/>
         <Navbar.Collapse id = "basic-navbar-nav">
           <Nav className='mr-auto'>
