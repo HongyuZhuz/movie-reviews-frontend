@@ -11,10 +11,8 @@ const AddReview=props=>{
     let editing=false
     let initialReviewState=""
 
-    console.log (location.state)
 
     if(location.state && location.state.currentReview){
-        console.log(editing+"editing now")
         editing=true
         initialReviewState=location.state.currentReview.review
     }
@@ -37,7 +35,7 @@ const AddReview=props=>{
         }
         
         if(editing){
-            data.review_id=location.state.currentReview.id
+            data.review_id=location.state.currentReview._id
             MovieDataService.updateReview(data)
             .then(response=>{
                 setSubmitted(true);

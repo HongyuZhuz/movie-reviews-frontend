@@ -66,8 +66,7 @@ const MovieReviews = ({movie,user,id})=>{
                     {user&&user.id===review.user_id&&
                     <Row>
                         <Col>
-                            <Link to={{pathname:`/movies/${id}/review`, 
-                            state:{currentReview:review}}}>
+                            <Link to={`/movies/${id}/review`} state={{currentReview:review}}>
                                 Edit
                             </Link>
                         </Col>
