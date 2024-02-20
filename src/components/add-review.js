@@ -1,15 +1,27 @@
 import React,{useState} from "react";
 import MovieDataService from "../services/movies";
-import { Link,useParams } from "react-router-dom";
+import { Link,useParams,useLocation } from "react-router-dom";
 import {Form,Button} from 'react-bootstrap';
 
 const AddReview=props=>{
+    const {id} = useParams();
+    const location=useLocation();
+
+
     let editing=false
     let initialReviewState=""
 
+    console.log (location.state)
+
+    if(location.state && location.state.currentReview){
+        console.log(editing+"editing now")
+        editing=true
+        initialReviewState=location.state.currentReview.review
+    }
+
     const [review,setReview]=useState(initialReviewState)
     const [submitted,setSubmitted]=useState(false)
-    const {id} = useParams();
+    
 
     const onChangeReview =e=>{
         const review=e.target.value
@@ -23,11 +35,25 @@ const AddReview=props=>{
             user_id:props.user.id,
             movie_id:id
         }
-        MovieDataService.createReview(data)
-        .then(response=>{
-            setSubmitted(true)
+        
+        if(editing){
+            data.review_id=location.state.currentReview.id
+            MovieDataService.updateReview(data)
+            .then(response=>{
+                setSubmitted(true);
+                console.log(response.data)
+            }).catch(e=>{
+                console.log(e)
+            })
+        }else{
+            MovieDataService.createReview(data)
+                .then(response=>{
+                setSubmitted(true)
         })
-        .catch(e=>{console.log(e)})
+                .catch(e=>{console.log(e)})
+        }
+
+
     }
 
     return(

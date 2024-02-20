@@ -21,7 +21,7 @@ function App() {
   }
 
   return (
-    <BrowserRouter className='App'>
+    <BrowserRouter>
       <Navbar bg="light" expand="sm">
         <Navbar.Brand>
           <Link to="/movies" style={{color:'inherit',textDecoration:'inherit'}}>
