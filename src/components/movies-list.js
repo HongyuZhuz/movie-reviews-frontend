@@ -13,12 +13,14 @@ const MoviesList = props=>{
     const [currentPage,setCurrentPage] = useState(0)
     const [entriesPerPage,setEntriesPerPage]=useState(0)
 
+
     useEffect(()=>{
         retrieveMovies()
         retrieveRatings()
     },[])
 
-    useEffect(()=>{retrieveMovies()},[currentPage])
+    useEffect(()=>{find(searchTitle,searchRating)},[currentPage])
+
 
     const retrieveMovies = ()=>{
         MovieDataService.getAll()
@@ -53,7 +55,7 @@ const MoviesList = props=>{
     }
 
     const find=(searchTitle,rating)=>{
-        MovieDataService.find(searchTitle,rating)
+        MovieDataService.find(searchTitle,rating,currentPage)
         .then(response=>{
            console.log(response.data)
             setMovies(response.data.movies)
@@ -64,6 +66,7 @@ const MoviesList = props=>{
     }
 
     const findBy =()=>{
+        setCurrentPage(0);
         find(searchTitle,searchRating)
     }
 

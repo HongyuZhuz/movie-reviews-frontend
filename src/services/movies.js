@@ -9,7 +9,7 @@ class MovieDataService{
         return axios.get(`http://localhost:5000/api/v1/movies/id/${id}`)
     }
     find(searchTitle,rating,page=0){
-        return axios.get(`http://localhost:5000/api/v1/movies?title=${searchTitle}&rated=${rating}`)
+        return axios.get(`http://localhost:5000/api/v1/movies?title=${searchTitle}&rated=${rating}&page=${page}`)
     }
     createReview(data){
         return axios.post("http://localhost:5000/api/v1/movies/review",data)
