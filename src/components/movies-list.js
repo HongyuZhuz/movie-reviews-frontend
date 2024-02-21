@@ -10,16 +10,22 @@ const MoviesList = props=>{
     const [searchRating,setSearchRating]=useState("")
     const [ratings,setRatings]=useState(["All Ratings"])
 
+    const [currentPage,setCurrentPage] = useState(0)
+    const [entriesPerPage,setEntriesPerPage]=useState(0)
+
     useEffect(()=>{
         retrieveMovies()
         retrieveRatings()
     },[])
 
+    useEffect(()=>{retrieveMovies()},[currentPage])
+
     const retrieveMovies = ()=>{
         MovieDataService.getAll()
         .then(response=>{
-            console.log(response.data)
             setMovies(response.data.movies)
+            setCurrentPage(response.data.page)
+            setEntriesPerPage(response.data.entries_per_page)
         })
         .catch(e=>{
             console.log(e)
@@ -65,7 +71,7 @@ const MoviesList = props=>{
         <div className="App">
             <Container>
                 <SearchForm onSearch={findBy} searchTitle={searchTitle} searchRating={searchRating} onChangeSearchTitle={onChangeSearchTitle} onChangeSearchRating={onChangeSearchRating} ratings={ratings}/>
-                <MovieGrid movies={movies}/>
+                <MovieGrid movies={movies} currentPage={currentPage} setCurrentPage={setCurrentPage} entriesPerPage={entriesPerPage}/>
             </Container>
         </div>
     );
@@ -113,8 +119,9 @@ const MovieCard=({movie})=>{
     )
 }
 
-const MovieGrid=({movies})=>{
+const MovieGrid=({movies,currentPage,setCurrentPage,entriesPerPage})=>{
     return(
+        <div>
         <Row>
             {movies.map((movie,index)=>(
                 <Col key={index}>
@@ -122,6 +129,15 @@ const MovieGrid=({movies})=>{
                 </Col>
             ))}
         </Row>
+        <br/>
+        Showing page:{currentPage}
+        <Button
+            variant="link"
+            onClick={()=>{setCurrentPage(currentPage+1)
+            console.log(currentPage)}}>
+                Get next {entriesPerPage} results
+        </Button>
+        </div>
     )
 }
 
