@@ -23,13 +23,30 @@ const Movie=props=>{
     useEffect(()=>{
         getMovie(id)
     },[id])
+
+    const deleteReview = (reviewId,index)=>{
+        MovieDataService.deleteReview(reviewId,props.user.id)
+        .then(response=>{
+            setMovie((prevState)=>{
+                const updatedReviews = prevState.reviews.filter((_,i)=>i!==index);
+                return{
+                    ...prevState,reviews:updatedReviews
+                }
+            })
+        })
+        .catch(e=>{
+            console.log(e)
+        })
+    }
+
     return(
         <div className="App">
-            <MovieCard movie={movie} id={id} user={props.user}/>
+            <MovieCard movie={movie} id={id} user={props.user} deleteReview={deleteReview}/>
         </div>
     )
 }
-const MovieCard =({movie,id,user})=>{
+const MovieCard =({movie,id,user, deleteReview})=>{
+
     return(
         <Container>
                 <Row>
@@ -49,13 +66,14 @@ const MovieCard =({movie,id,user})=>{
                         <br></br>
                         <h2>Reviews</h2>
                         <br></br>
-                        <MovieReviews movie={movie} user={user} id={id}/>
+                        <MovieReviews movie={movie} user={user} id={id} deleteReview={deleteReview}/>
                     </Col>
                 </Row>
             </Container>
     )
 }
-const MovieReviews = ({movie,user,id})=>{
+const MovieReviews = ({movie,user,id,deleteReview})=>{
+    
     return(
         movie.reviews.map((review,index)=>{
             return(
@@ -70,7 +88,7 @@ const MovieReviews = ({movie,user,id})=>{
                                 Edit
                             </Link>
                         </Col>
-                        <Col><Button variant="link">Delete</Button></Col>
+                        <Col><Button variant="link" onClick={()=>deleteReview(review._id,index)}>Delete</Button></Col>
                     </Row>}
                 </div>
             </div>)
