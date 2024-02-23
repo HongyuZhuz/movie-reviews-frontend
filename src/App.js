@@ -41,6 +41,7 @@ function App() {
         </Navbar.Collapse>
       </Navbar>
       <Routes>
+      <Route path="/" element={<MoviesList/>}></Route>
         <Route path="/movies" element={<MoviesList/>}></Route>
         <Route path="/movies/:id/review" element={<AddReview user={user}/>}></Route>
         <Route path="/movies/:id/" element={<Movie user={user}/>}></Route>
